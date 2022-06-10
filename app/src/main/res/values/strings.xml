@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">GreenThumb</string>
+    <string name="ic_logo_description">A sprout coming from a seed.</string>
+
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_description">Getting plants to grow and thrive under your care is a rewarding experience. Here are some terms you might find on your plant tag when you buy it:</string>
+    <string name="instruction_light_title">Light</string>
+    <string name="instruction_light_direct">Direct (bright): full sunlight for 6+ hours per day.</string>
+    <string name="instruction_light_indirect">Indirect (partial): diffuse sunlight for 3–6 hours of the day. Avoid direct sunlight.</string>
+    <string name="instruction_light_low">Low (shade): shady conditions, but some indirect light (less than 3 hours) is welcomed.</string>
+    <string name="instruction_light_tip">Tip: “full shade” does not mean a plant can survive in a windowless room. All plants require sunlight!</string>
+
+    <string name="instruction_water_title">Water</string>
+    <string name="instruction_water_low">Low: once every 2 weeks, or when most of the soil is dry.</string>
+    <string name="instruction_water_moderate">Moderate: once a week, or when first 1-2 inches of top soil has dried out.</string>
+    <string name="instruction_water_high">High: 2-3 times a week, when top soil has dried out.</string>
+    <string name="instruction_water_misting">Misting: use to produce humidity and to help clean the leaves.</string>
+    <string name="instruction_water_tip1">Water more often: in the summer</string>
+    <string name="instruction_water_tip2">Water less often: in the winter</string>
+
+    <string name="instruction_maintenance_title">Maintenance</string>
+    <string name="instruction_maintenance_misting">Humidity: some tropical plants do well when the leaves are misted.</string>
+    <string name="instruction_maintenance_leaf">Leaf care:</string>
+    <string name="instruction_maintenance_leaf1">Wipe both side of leaves with a soft damp cloth monthly.</string>
+    <string name="instruction_maintenance_leaf2">Prune away leaves that are yellowed, browned, or withering.</string>
+    <string name="instruction_maintenance_fertilizer">Fertilizer:</string>
+    <string name="instruction_maintenance_fertilizer1">Generally only needed every 1–2 weeks during the “growing months” = spring and summer.</string>
+    <string name="instruction_maintenance_fertilizer2">A liquid variety works well for most indoor plants.</string>
+
+
+    <string name="instruction_consistency_title">Consistency</string>
+    <string name="instruction_consistency_description">Plants love consistency so make sure you pay attention to:</string>
+    <string name="instruction_consistency_watering">Frequency of watering</string>
+    <string name="instruction_consistency_temperature">Temperature</string>
+    <string name="instruction_consistency_fertilizer">Feeding of fertilizer</string>
+    <string name="instruction_consistency_light">Light</string>
+
+    <string name="board_button_next">Next</string>
+    <string name="board_button_skip">Skip</string>
+    <string name="board_button_start">Get Started</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat. Massa massa ultricies mi quis hendrerit dolor magna eget. Volutpat ac tincidunt vitae semper. Enim lobortis scelerisque fermentum dui. Cursus vitae congue mauris rhoncus. Feugiat nisl pretium fusce id. Nulla facilisi nullam vehicula ipsum. Massa tempor nec feugiat nisl pretium fusce id velit. Nunc lobortis mattis aliquam faucibus purus in massa. Amet purus gravida quis blandit turpis cursus. Amet cursus sit amet dictum. Venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam.</string>
+
+</resources>
