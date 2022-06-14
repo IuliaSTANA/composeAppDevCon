@@ -26,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
 import org.green.thumb.data.Plant
 import org.green.thumb.data.SampleData
 import org.green.thumb.ui.theme.Part01Theme
@@ -43,12 +42,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun PlantOverviewScreen(plants: LiveData<List<Plant>>){
-    val plantsInventory by plants.observeAsState()
-    PlantOverview(inventory = plantsInventory)
 }
 
 @Composable

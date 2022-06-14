@@ -98,6 +98,11 @@ Find more composable elements fully supporting material theming in the Material 
 * [Material Catalog App](https://play.google.com/store/apps/details?id=androidx.compose.material.catalog "Material Catalog App")<br />
 * [Source code](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/integration-tests/material-catalog/ "Material Catalog")<br />
 
+The `@Preview` annotation will generate a preview of your composable without having to run the
+application. You can apply multiple `@Preview` annotations to the same function and you can use
+different parameters for each annotation to generate different styles/modes for the same composable.
+Example:use `uiMode = Configuration.UI_MODE_NIGHT_NO` for dark mode.
+
 **6.Make changes to the code to build the `PlantCard` that will be shown in the inventory
 list.** <br />
 **Answer:**
