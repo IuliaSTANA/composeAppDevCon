@@ -12,7 +12,6 @@ After completing part 1 of the workshop you should be able to:
 
 - Use composable functions to describe a Compose UI
 - Define what composition & recomposition are
-- Create an adaptive layout
 - Express the way recomposition execution impacts your Compose code
 
 Explore the generated code for the Empty Compose Activity and try to answer the following questions:
@@ -41,6 +40,16 @@ Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.backgrou
 }
 ```
 
+### Note:
+
+The line `var clickCounter by remember { mutableStateOf(0) }` creates a `MutableState<Int>` variable
+by using Kotlin's delegated property. The `State`/`MutableState` types are the state types you have
+to use so that the Compose compiler is able to monitor and react to state changes. This will be
+covered in more detail in [Part02](../Part02/README.md). For now you can think of them as special
+state types that make it possible for the Compose compiler to work it's magic. <br />
+Learn more about delegated
+properties [here](https://developer.android.com/jetpack/compose/kotlin#delegated)
+
 Can you explain what happens when the code runs? How is the text label updated?
 
 4. **Q:** Change the code so that it shows 2 texts in a line, one after another, or in a stack, one
@@ -51,7 +60,7 @@ Can you explain what happens when the code runs? How is the text label updated?
    list: ![layout](media/plantcard_01.png)
 7. **Q:** Add the expandable area in the card so that the care log can be shown. Bonus: Animate the
    expansion: ![layout](media/plantcard_02.gif)
-8. **Q:** Create a list to show the full plant inventory: ![layout](media/plantcard_03.png)
+8. **Q:** Create a list to show the full plant inventory: ![layout](media/plantcard_03.gif)
 
 If you want help, you can find the answers [here](ANSWERS.md).
 
@@ -61,5 +70,4 @@ Resources & further reading:
 2. [Managing state](https://developer.android.com/jetpack/compose/state)
 3. [Lifecycle compose](https://developer.android.com/jetpack/compose/lifecycle)
 4. [Compose Pathway](https://developer.android.com/courses/pathways/compose)
-5. [Build Adaptive Layouts](https://developer.android.com/jetpack/compose/layouts/adaptive)
 6. [Modifiers](https://developer.android.com/jetpack/compose/modifiers)

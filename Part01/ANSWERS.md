@@ -129,7 +129,7 @@ correctly align the elements. For the text style and color use the properties
 mentioned [earlier](#material-theme).
 
 **7. Add the expandable area in the card so that the care log can be shown. Bonus: Animate the
-expansion.** <br />
+expansion.** ![layout](media/plantcard_02.gif)<br />
 **Answer:**
 
 Start of by building the content statically then add the click to expand and animation. In order to
@@ -180,7 +180,7 @@ In order to create animations, you can
 * or use any of the `animate[Value]AsState` to animate a specific value transitioning (including
   size).
 
-**8. Create a list to show the plant inventory** <br />
+**8. Create a list to show the plant inventory** ![layout](media/plantcard_03.gif)<br />
 **Answer:**
 Create a new composable that uses a `LazyColumn` to show the plant inventory. The list items will
 only be created when they have to be shown on screen. The lazy lists (columns, row & grids) have
