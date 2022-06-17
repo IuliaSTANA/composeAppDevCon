@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">2 - Begin</string>
+    <string name="overview_title_loading">Loading plant list…</string>
+    <string name="overview_title_error">An error occurred…</string>
+    <string name="overview_title">Plant Inventory</string>
+    <string name="add_plant">Add Plant</string>
+
+    <string name="addedit_title">Add Plant</string>
+    <string name="addedit_plant_name">Plant name</string>
+    <string name="addedit_plant_location">Location</string>
+    <string name="addedit_plant_description">Description</string>
+    <string name="addedit_plant_watering">Watering frequency</string>
+    <string name="addedit_plant_light">Light requirement</string>
+    <string name="addedit_plant_save">Save</string>
+
+    <string name="watering_low">Low</string>
+    <string name="watering_moderate">Moderate</string>
+    <string name="watering_high">High</string>
+
+    <string name="light_low">Low (shade)</string>
+    <string name="light_indirect">Indirect (partial)</string>
+    <string name="light_direct">Direct (bright)</string>
+    <string name="addedit_plant_requires_misting">Does it require misting?</string>
+    <string name="select">Select</string>
+
+    <string-array name="watering_frequency">
+        <item>@string/watering_low</item>
+        <item>@string/watering_moderate</item>
+        <item>@string/watering_high</item>
+    </string-array>
+
+    <string-array name="light_requirement">
+        <item>@string/light_low</item>
+        <item>@string/light_indirect</item>
+        <item>@string/light_direct</item>
+    </string-array>
+</resources>
