@@ -40,7 +40,9 @@ fun AddEditPlantScreen(
     ),
     modifier: Modifier = Modifier,
 ) = Scaffold(
-    modifier = modifier,
+    modifier = modifier
+        .systemBarsPadding()
+        .navigationBarsPadding(),
 ) { paddingValues ->
 
     val currentPlant by viewModel.currentPlant.observeAsState(Plant())
@@ -90,11 +92,11 @@ fun AddEditPlantContent(
             val focusManager = LocalFocusManager.current
 
             val label = stringResource(R.string.addedit_plant_name)
-            Spacer(Modifier.height(56.dp))
             Text(
                 text = stringResource(id = R.string.addedit_title),
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier
+                    .padding(top = 16.dp)
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center)
             )

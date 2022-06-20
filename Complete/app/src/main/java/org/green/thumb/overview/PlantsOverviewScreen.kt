@@ -23,7 +23,14 @@ import org.green.thumb.data.Plant
 @Composable
 fun PlantOverviewScreen(viewModel: PlantOverviewViewModel, onAddPlant: () -> Unit) =
     Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = onAddPlant) {
+        FloatingActionButton(
+            onClick = onAddPlant,
+            modifier = Modifier
+                .systemBarsPadding()
+                .navigationBarsPadding(),
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            backgroundColor = MaterialTheme.colorScheme.primary
+        ) {
             Icon(Icons.Filled.Add, stringResource(id = R.string.add_plant))
         }
     }
@@ -62,7 +69,8 @@ fun PlantOverviewContent(overviewUiState: OverviewData, modifier: Modifier = Mod
 @Composable
 fun OverviewList(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(8.dp),
-    modifier = modifier.fillMaxWidth()
+    modifier = modifier.fillMaxWidth(),
+    contentPadding = PaddingValues(bottom = 56.dp) // Accommodate space for FAB
 ) {
     item("header") {
         Text(
@@ -70,8 +78,10 @@ fun OverviewList(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyCo
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
             modifier = Modifier
+                .padding(top = 16.dp)
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
+                .padding(bottom = 16.dp)
         )
     }
     items(inventory) { plant ->

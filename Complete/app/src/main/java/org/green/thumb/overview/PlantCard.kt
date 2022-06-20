@@ -29,7 +29,6 @@ import org.green.thumb.ui.theme.GreenThumbsTheme
 @Composable
 fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
-    Spacer(modifier = Modifier.height(40.dp))
     Column(
         Modifier
             .clickable(onClick = { isExpanded = !isExpanded })
