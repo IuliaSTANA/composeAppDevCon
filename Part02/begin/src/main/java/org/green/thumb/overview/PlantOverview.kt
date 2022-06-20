@@ -56,4 +56,5 @@ fun PlantOverview(inventory: List<Plant>) =
                 PlantCard(plant)
             }
         }
+
     }

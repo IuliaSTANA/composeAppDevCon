@@ -28,13 +28,14 @@ fun PlantOverviewScreen(viewModel: PlantOverviewViewModel, onAddPlant: () -> Uni
         }
     }
     ) { paddingValues ->
+
         val overviewUiState: OverviewData by viewModel.overviewData.observeAsState(OverviewData.Loading)
 
         PlantOverviewContent(overviewUiState = overviewUiState, modifier = Modifier
             .padding(paddingValues)
             .fillMaxWidth())
-    }
 
+    }
 
 @Composable
 fun PlantOverviewContent(overviewUiState: OverviewData, modifier: Modifier = Modifier) {
@@ -49,8 +50,6 @@ fun PlantOverviewContent(overviewUiState: OverviewData, modifier: Modifier = Mod
             OverviewError(modifier)
         }
     }
-
-
 }
 
 @Composable
@@ -75,7 +74,7 @@ fun OverviewList(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyCo
 }
 
 @Composable
-fun OverviewError(modifier: Modifier) = Column(modifier) {
+fun OverviewError(modifier: Modifier) = Column(modifier.padding(16.dp)) {
     Spacer(Modifier.height(56.dp))
     Text(
         text = stringResource(id = R.string.overview_title_error),

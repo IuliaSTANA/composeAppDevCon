@@ -91,7 +91,10 @@ fun AddEditPlantContent(
             Spacer(Modifier.height(24.dp))
             OutlinedTextField(
                 value = name,
-                onValueChange = onNameChange,
+                onValueChange = {
+                    onNameChange.invoke(it)
+                    validateName()
+                },
                 isError = isError,
                 singleLine = true,
                 label = {
