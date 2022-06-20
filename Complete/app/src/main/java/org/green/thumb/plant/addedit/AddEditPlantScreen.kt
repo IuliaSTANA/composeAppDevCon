@@ -1,4 +1,4 @@
-package org.green.thumb.addedit
+package org.green.thumb.plant.addedit
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

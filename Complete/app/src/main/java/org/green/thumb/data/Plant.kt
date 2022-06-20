@@ -2,6 +2,7 @@ package org.green.thumb.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.util.*
 
@@ -16,12 +17,13 @@ import java.util.*
  */
 @Entity(tableName = "plants")
 data class Plant(
-    @ColumnInfo(name = "name") val name: String = "",
-    @ColumnInfo(name = "description") val description: String = "",
-    @ColumnInfo(name = "location") val location: String = "",
-    @ColumnInfo(name = "wateringRequency") val wateringFrequency: Int = 0,
-    @ColumnInfo(name = "lightRequirement") val lightRequirement: Int = 0,
-    @ColumnInfo(name = "temperature") val temperature: Int = 0,
-    @ColumnInfo(name = "shouldDoMisting") val shouldDoMisting: Boolean = false,
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "name") var name: String = "",
+    @ColumnInfo(name = "description") var description: String = "",
+    @ColumnInfo(name = "location") var location: String = "",
+    @ColumnInfo(name = "wateringRequency") var wateringFrequency: Int = 0,
+    @ColumnInfo(name = "lightRequirement") var lightRequirement: Int = 0,
+    @ColumnInfo(name = "temperature") var temperature: Int = 0,
+    @ColumnInfo(name = "shouldDoMisting") var shouldDoMisting: Boolean = false,
+    @PrimaryKey var id: String = UUID.randomUUID().toString(),
+    @Ignore var careLog: List<PlantCare> = emptyList(),
 )

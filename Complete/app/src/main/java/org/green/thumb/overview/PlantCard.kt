@@ -1,83 +1,122 @@
 package org.green.thumb.overview
 
-import android.content.res.Configuration
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 import org.green.thumb.ui.theme.GreenThumbsTheme
-import org.green.thumb.ui.theme.Spacing_XSmall
-import org.green.thumb.ui.theme.Spacing_XXSmall
 
 @Composable
-fun PlantCard(plant: Plant) {
-    Row(modifier = Modifier.padding(all = Spacing_XSmall)) {
-        Image(
-            painter = painterResource(R.drawable.ic_plant_fallback),
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
-        )
-        Spacer(modifier = Modifier.width(Spacing_XSmall))
-
-        var isExpanded by remember { mutableStateOf(false) }
-        val surfaceColor by animateColorAsState(
-            if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-        )
-
-        Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
-            Text(
-                text = plant.name,
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(Spacing_XXSmall))
-            Text(
-                text = plant.location,
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Surface(
-                shape = MaterialTheme.shapes.medium,
-                tonalElevation = 1.dp,
-                shadowElevation = 2.dp,
-                color = surfaceColor,
+fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+    Spacer(modifier = Modifier.height(40.dp))
+    Column(
+        Modifier
+            .clickable(onClick = { isExpanded = !isExpanded })
+            .padding(horizontal = 16.dp)
+    ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_plant_fallback),
+                //contentDescription is a mandatory parameter, cannot be omitted.
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(
+                    MaterialTheme.colorScheme.secondary,
+                    BlendMode.SrcIn
+                ),
                 modifier = Modifier
-                    .animateContentSize()
-                    .padding(1.dp)
+                    .align(Alignment.CenterVertically)
+                    .size(48.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             ) {
                 Text(
-                    text = plant.description,
-                    modifier = Modifier.padding(all = 4.dp),
-                    // If the message is expanded, we display all its content
-                    // otherwise we only display the first line
-                    maxLines = if (isExpanded) Int.MAX_VALUE else 1,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = plant.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Start)
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = plant.location,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+            }
+            Icon(
+                imageVector = if (isExpanded) {
+                    Icons.Filled.KeyboardArrowUp
+                } else {
+                    Icons.Filled.KeyboardArrowDown
+                },
+                contentDescription = "",
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+        }
+
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .animateContentSize()
+                .padding(top = 8.dp)
+        ) {
+            if (isExpanded) {
+                Column(modifier = Modifier.padding(8.dp)) {
+                    if (plant.careLog.isEmpty()) {
+                        Text(
+                            text = "No logs yet.",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = 4.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    } else {
+                        for (care in plant.careLog) {
+                            Text(
+                                text = "${care.date}: ${care.description}",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 4.dp),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-
-@Preview(name = "Light Mode")
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Dark Mode"
+    showBackground = true
 )
 @Composable
 private fun PlantsOverview_Preview() {
