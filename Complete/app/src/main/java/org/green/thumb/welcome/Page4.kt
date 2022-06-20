@@ -55,10 +55,6 @@ internal fun PageFour() = Column(
             Spacer(Modifier.height(SpacingSmall_BodyItems))
         }
     }
-    Checkbox(
-        checked = false,
-        onCheckedChange = { }
-    )
 }
 
 @Preview(name = "Light Mode")
