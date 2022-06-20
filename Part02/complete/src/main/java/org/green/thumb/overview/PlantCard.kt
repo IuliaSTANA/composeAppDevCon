@@ -1,6 +1,5 @@
 package org.green.thumb.overview
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -13,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
@@ -26,81 +26,93 @@ import org.green.thumb.data.Plant
 import org.green.thumb.data.SampleData
 import org.green.thumb.ui.theme.Part02Theme
 
-
 @Composable
 fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
     Spacer(modifier = Modifier.height(40.dp))
-    Row(modifier = Modifier.fillMaxWidth()) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_plant_default),
-            //contentDescription is a mandatory parameter, cannot be omitted.
-            contentDescription = "",
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary, BlendMode.SrcIn),
-            modifier = Modifier.align(Alignment.CenterVertically)
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = plant.name,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.Start)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = plant.location,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.secondary,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.Start))
-        }
-    }
-
-    var isExpanded by remember { mutableStateOf(false) }
-    val surfaceColor by animateColorAsState(
-        if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-    )
-
-    Surface(
-        shape = MaterialTheme.shapes.medium,
-        color = surfaceColor,
-        modifier = Modifier
-            .animateContentSize()
-            .padding(1.dp)
+    Column(
+        Modifier
+            .clickable(onClick = { isExpanded = !isExpanded })
+            .padding(horizontal = 16.dp)
     ) {
-        val icon = if (isExpanded) {
-            Icons.Filled.KeyboardArrowUp
-        } else {
-            Icons.Filled.KeyboardArrowDown
-        }
-        Column {
-            Row(modifier = Modifier.clickable(onClick = { isExpanded = !isExpanded })) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_plant_default),
+                //contentDescription is a mandatory parameter, cannot be omitted.
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(
+                    MaterialTheme.colorScheme.secondary,
+                    BlendMode.SrcIn
+                ),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(48.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
                 Text(
-                    text = "Plant care log",
-                    modifier = Modifier
-                        .padding(all = 4.dp)
-                        .weight(1f),
-                    style = MaterialTheme.typography.titleLarge
+                    text = plant.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Start)
                 )
-                Icon(
-                    imageVector = icon,
-                    contentDescription = "",
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = plant.location,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Start)
                 )
             }
+            Icon(
+                imageVector = if (isExpanded) {
+                    Icons.Filled.KeyboardArrowUp
+                } else {
+                    Icons.Filled.KeyboardArrowDown
+                },
+                contentDescription = "",
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+        }
 
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .animateContentSize()
+                .padding(top = 8.dp)
+        ) {
             if (isExpanded) {
-                for (care in plant.careLog) {
-                    Text(
-                        text = "${care.date}: ${care.description}",
-                        modifier = Modifier.padding(all = 4.dp),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    if (plant.careLog.isEmpty()) {
+                        Text(
+                            text = "No logs yet.",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = 4.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    } else {
+                        for (care in plant.careLog) {
+                            Text(
+                                text = "${care.date}: ${care.description}",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 4.dp),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

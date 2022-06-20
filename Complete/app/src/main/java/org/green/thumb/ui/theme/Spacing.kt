@@ -44,3 +44,4 @@ val TouchHeight = 48.dp
 
 val Keyline_Small = 8.dp
 val Keyline_Medium = 16.dp
+val Keyline_Large = 72.dp

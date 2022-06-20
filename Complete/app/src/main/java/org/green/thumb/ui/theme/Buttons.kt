@@ -1,12 +1,16 @@
 package org.green.thumb.ui.theme
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 
 
 /**
@@ -40,13 +44,15 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, onClick: () -> Un
  * @param onClick: what happens when the button is clicked
  * */
 @Composable
-fun PrimaryButtonWithFWArrow(text: String, enabled: Boolean = true, onClick: () -> Unit) {
+fun PrimaryButtonWithFWArrow(
+    text: String,
+    enabled: Boolean = true,
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .sizeIn(minHeight = TouchHeight)
-            .padding(horizontal = Spacing_XSmall),
+        modifier = modifier,
         enabled = enabled
     ) {
         Text(
