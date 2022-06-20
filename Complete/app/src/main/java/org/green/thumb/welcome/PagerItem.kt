@@ -18,10 +18,10 @@ internal fun PagerItem(page: Int) {
             .verticalScroll(rememberScrollState())
     ) {
         when {
-            page.isFirst() -> PageOne()
-            page.isSecond() -> PageTwo()
-            page.isThird() -> PageThree()
-            page.isFourth() -> PageFour()
+            page.isFirst() -> Page1()
+            page.isSecond() -> Page2()
+            page.isThird() -> Page3()
+            page.isFourth() -> Page4()
         }
     }
 }

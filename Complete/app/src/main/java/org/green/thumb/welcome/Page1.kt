@@ -24,9 +24,8 @@ import org.green.thumb.ui.theme.Keyline_Small
 import org.green.thumb.ui.theme.SpacingSmall_BodyItems
 import org.green.thumb.ui.theme.Spacing_XSmall
 
-
 @Composable
-internal fun PageOne() = Column(
+internal fun Page1() = Column(
     modifier = Modifier
         .fillMaxSize()
 ) {
@@ -97,6 +96,6 @@ internal fun PageOne() = Column(
 @Composable
 private fun PageOne_Preview() {
     GreenThumbsTheme {
-        PageOne()
+        Page1()
     }
 }
