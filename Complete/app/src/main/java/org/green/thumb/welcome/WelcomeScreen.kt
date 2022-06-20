@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -19,21 +20,23 @@ import com.google.accompanist.pager.rememberPagerState
 import org.green.thumb.R
 import org.green.thumb.ui.composables.Logo
 import org.green.thumb.ui.composables.Title
-import org.green.thumb.ui.theme.GreenThumbsTheme
-import org.green.thumb.ui.theme.Keyline_Medium
-import org.green.thumb.ui.theme.SpacingLarge_TitleToBody
-import org.green.thumb.ui.theme.SpacingMedium_FooterToBottomEdge
+import org.green.thumb.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun WelcomeScreen(
     navigate: (String) -> Unit = {},
+    windowSize: WindowWidthSizeClass,
 ) =
     Scaffold { padding ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(horizontal = Keyline_Medium)
+                .padding(horizontal = when (windowSize) {
+                    WindowWidthSizeClass.Compact -> Keyline_Medium
+                    else -> Keyline_Large
+                })
+                .navigationBarsPadding()
         ) {
             Logo(
                 modifier = Modifier
@@ -89,6 +92,24 @@ fun WelcomeScreen(
 @Composable
 private fun Welcome_Preview() {
     GreenThumbsTheme {
-        WelcomeScreen()
+        WelcomeScreen(
+            windowSize = WindowWidthSizeClass.Compact
+        )
+    }
+}
+
+@Preview(name = "Light Mode", widthDp = 700)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode",
+    widthDp = 700
+)
+@Composable
+private fun Welcome_Preview_Tablet() {
+    GreenThumbsTheme {
+        WelcomeScreen(
+            windowSize = WindowWidthSizeClass.Medium
+        )
     }
 }

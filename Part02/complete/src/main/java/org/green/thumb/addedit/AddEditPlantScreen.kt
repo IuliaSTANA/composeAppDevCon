@@ -11,8 +11,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -30,7 +32,12 @@ fun AddEditPlantScreen(
     plantId: String?,
     onPlantUpdate: () -> Unit,
     viewModel: AddEditPlantViewModel,
-    state: AddEditPlantState = rememberAddEditPlantState(plantId = plantId, viewModel = viewModel, onPlantSaved = onPlantUpdate, defaultChoice = stringResource(id = R.string.select)),
+    state: AddEditPlantState = rememberAddEditPlantState(
+        plantId = plantId,
+        viewModel = viewModel,
+        onPlantSaved = onPlantUpdate,
+        defaultChoice = stringResource(id = R.string.select)
+    ),
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
@@ -53,7 +60,7 @@ fun AddEditPlantScreen(
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditPlantContent(
     name: String,
@@ -67,14 +74,19 @@ fun AddEditPlantContent(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) =
-    Column(modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())
-        .padding(horizontal = 16.dp)
-    ) {
-        Column(Modifier
+    Column(
+        modifier
             .fillMaxSize()
-            .weight(1f)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
+    ) {
+        val options = stringArrayResource(id = R.array.watering_frequency).toList()
+        var expanded by rememberSaveable { mutableStateOf(false) }
+
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(1f)
         ) {
             val focusManager = LocalFocusManager.current
 
@@ -91,7 +103,10 @@ fun AddEditPlantContent(
             Spacer(Modifier.height(24.dp))
             OutlinedTextField(
                 value = name,
-                onValueChange = onNameChange,
+                onValueChange = {
+                    onNameChange.invoke(it)
+                    validateName()
+                },
                 isError = isError,
                 singleLine = true,
                 label = {
@@ -133,20 +148,54 @@ fun AddEditPlantContent(
                         focusManager.clearFocus()
                     },
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(8.dp))
-            DropDownField(
-                label = stringResource(id = R.string.addedit_plant_watering),
-                choices = stringArrayResource(id = R.array.watering_frequency).toList(),
-                currentChoice = currentChoice,
-                onSelectChoice = onWateringFrequencySelect,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(48.dp, 56.dp)
-            )
+
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = {
+                    expanded = !expanded
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextField(
+                    readOnly = true,
+                    value = currentChoice,
+                    onValueChange = {
+                        // Can't change; read-only
+                    },
+                    label = { Text(stringResource(id = R.string.addedit_plant_watering)) },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = expanded
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = {
+                        expanded = false
+                    }
+                ) {
+                    options.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                                selectionOption.let {
+                                    onWateringFrequencySelect.invoke(options.indexOf(it), it)
+                                }
+                            },
+                            text = {
+                                Text(text = selectionOption)
+                            }
+                        )
+                    }
+                }
+            }
         }
 
         Button(

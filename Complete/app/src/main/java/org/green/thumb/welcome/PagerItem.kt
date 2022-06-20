@@ -3,6 +3,8 @@ package org.green.thumb.welcome
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,12 +15,13 @@ internal fun PagerItem(page: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         when {
-            page.isFirst() -> PageOne()
-            page.isSecond() -> PageTwo()
-            page.isThird() -> PageThree()
-            page.isFourth() -> PageFour()
+            page.isFirst() -> Page1()
+            page.isSecond() -> Page2()
+            page.isThird() -> Page3()
+            page.isFourth() -> Page4()
         }
     }
 }

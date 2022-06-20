@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.launch
@@ -35,7 +37,11 @@ internal fun ActionsBlock(
     }
     val scope = rememberCoroutineScope()
 
-    PrimaryButtonWithFWArrow(text = text) {
+    PrimaryButtonWithFWArrow(text = text, modifier = Modifier
+        .align(Alignment.CenterHorizontally)
+        .sizeIn(minHeight = TouchHeight, minWidth = 288.dp)
+        .padding(horizontal = Spacing_XSmall)
+    ) {
         if (pagerState.currentPage.isLastPage()) {
             navigate(Overview)
         } else {
@@ -53,8 +59,8 @@ internal fun ActionsBlock(
                 navigate(Overview)
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .sizeIn(minHeight = TouchHeight)
+                .align(Alignment.CenterHorizontally)
+                .sizeIn(minHeight = TouchHeight, minWidth = 288.dp)
                 .padding(horizontal = Spacing_XSmall)
         ) {
             Text(
