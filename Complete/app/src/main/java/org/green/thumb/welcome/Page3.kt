@@ -17,7 +17,7 @@ import org.green.thumb.ui.composables.convertTextToAnnotatedString
 import org.green.thumb.ui.theme.*
 
 @Composable
-internal fun PageThree() = Column(
+internal fun Page3() = Column(
     modifier = Modifier
         .fillMaxSize()
 ) {
@@ -107,6 +107,6 @@ internal fun PageThree() = Column(
 @Composable
 private fun PageThree_Preview() {
     GreenThumbsTheme {
-        PageThree()
+        Page3()
     }
 }

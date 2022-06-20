@@ -36,6 +36,7 @@ object Libs {
             const val animation = "androidx.compose.animation:animation:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
             const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:$version"
+            const val windowSizeClass = "androidx.compose.material3:material3-window-size-class:1.0.0-alpha13"
 
             object Material3 {
                 private const val version = "1.0.0-alpha13"

@@ -65,6 +65,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.Material3.designMaterial3
     implementation Libs.AndroidX.Compose.toolingPreview
     implementation Libs.AndroidX.Compose.Navigation.nav
+    implementation Libs.AndroidX.Compose.windowSizeClass
     implementation Libs.AndroidX.activityCompose
 
     implementation Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx

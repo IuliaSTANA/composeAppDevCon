@@ -33,12 +33,12 @@ fun PlantOverview(inventory: List<Plant>) =
             Icon(Icons.Filled.Add, stringResource(id = R.string.add_plant))
         }
     }
-    ) { it ->
+    ) { paddingValues ->
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .padding(it)
+                .padding(paddingValues)
                 .fillMaxWidth()
         ) {
             item("header") {
@@ -56,4 +56,5 @@ fun PlantOverview(inventory: List<Plant>) =
                 PlantCard(plant)
             }
         }
+
     }
