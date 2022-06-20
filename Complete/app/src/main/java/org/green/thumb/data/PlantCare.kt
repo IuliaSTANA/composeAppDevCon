@@ -25,21 +25,4 @@ class PlantCare(
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "date") val date: LocalDate = LocalDate.MIN,
     @ColumnInfo(index = true) val plant: String,
-) {
-}
-//https://stackoverflow.com/questions/47511750/how-to-use-foreign-key-in-room-persistence-library
-//@Entity(
-//    foreignKeys = [ForeignKey(
-//        entity = Artist::class,
-//        parentColumns = arrayOf("id"),
-//        childColumns = arrayOf("artist"),
-//        onDelete = ForeignKey.CASCADE
-//    )]
-//)
-//data class Album(
-//    @PrimaryKey
-//    val albumId: String,
-//    val name: String,
-//    @ColumnInfo(index = true)
-//    val artist: String,
-//)
+)

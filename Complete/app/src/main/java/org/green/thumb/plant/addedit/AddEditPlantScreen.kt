@@ -1,4 +1,4 @@
-package org.green.thumb.addedit
+package org.green.thumb.plant.addedit
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -40,7 +40,9 @@ fun AddEditPlantScreen(
     ),
     modifier: Modifier = Modifier,
 ) = Scaffold(
-    modifier = modifier,
+    modifier = modifier
+        .systemBarsPadding()
+        .navigationBarsPadding(),
 ) { paddingValues ->
 
     val currentPlant by viewModel.currentPlant.observeAsState(Plant())

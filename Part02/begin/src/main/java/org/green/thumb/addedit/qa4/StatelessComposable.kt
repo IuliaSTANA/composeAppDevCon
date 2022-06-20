@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditPlantScreen(
@@ -49,7 +48,6 @@ fun AddEditPlantScreen(
     )
 }
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddEditPlantContentStateless(
@@ -63,9 +61,9 @@ fun AddEditPlantContentStateless(
     currentChoice: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-) = Column(Modifier
-    .fillMaxSize()
-    .padding(16.dp)
+) = Column(
+    Modifier
+        .fillMaxSize()
+        .padding(16.dp)
 ) {
 }
-

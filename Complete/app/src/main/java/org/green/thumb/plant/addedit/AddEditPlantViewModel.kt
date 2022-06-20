@@ -1,4 +1,4 @@
-package org.green.thumb.addedit
+package org.green.thumb.plant.addedit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
