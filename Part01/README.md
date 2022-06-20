@@ -14,12 +14,13 @@ After completing part 1 of the workshop you should be able to:
 - Define what composition & recomposition are
 - List the ways recomposition execution impacts your Compose code
 
-Explore the generated code for the Empty Compose Activity and try to answer the questions below.
-If you want help, you can find the answers [here](ANSWERS.md).
+Explore the generated code for the Empty Compose Activity and try to answer the questions below. If
+you want help, you can find the answers [here](ANSWERS.md).
 
 1. **Q:** How is the Activity's content set?
-2. **Q:** What can you highlight about the `Greeting` function? 
-3. **Q:** Can you explain what happens when you make the following changes and run the code? How is the text label updated?
+2. **Q:** What can you highlight about the `Greeting` function?
+3. **Q:** Can you explain what happens when you make the following changes and run the code? How is
+   the text label updated?
 
 ```
 @Composable
@@ -51,7 +52,6 @@ Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.backgrou
 > Learn more about delegated
 > properties [here](https://developer.android.com/jetpack/compose/kotlin#delegated)
 
-
 4. **Q:** Change the code so that it shows 2 texts in a line, one after another, or in a stack, one
    below the other. What can you tell about the `content` parameter?
 5. **Q:** What are the elements that make up the generated theme? How do you apply a color or
@@ -59,10 +59,21 @@ Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.backgrou
 6. **Q:** Make changes to the code to build the `PlantCard` that will be shown in the inventory
    list: <br />![layout](media/plantcard_01.png)<br />
 7. **Q:** Add the expandable area in the card so that the care log can be shown. Bonus: Try to see
-   if you can create an animation for expanding the
-   area<br /> ![layout](media/plantcard_02.gif)<br />
-9. **Q:** Create a list to show the full plant
-   inventory:<br /> ![layout](media/plantcard_03.gif) <br />
+   if you can create an animation for expanding the area<br />
+
+<details>
+  <summary>Expandable plant card animation:</summary>
+
+![layout](media/plantcard_02.gif)<br />
+</details>
+
+8. **Q:** Create a list to show the full plant inventory:<br />
+
+<details>
+  <summary>Plants overview screen:</summary>
+
+![layout](media/plantcard_03.gif) <br />
+</details>
 
 
 Resources & further reading:
