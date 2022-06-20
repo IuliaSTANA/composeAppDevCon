@@ -26,7 +26,7 @@ import org.green.thumb.ui.theme.*
 @Composable
 fun WelcomeScreen(
     navigate: (String) -> Unit = {},
-    windowSize: WindowWidthSizeClass,
+    windowSize: WindowWidthSizeClass
 ) =
     Scaffold { padding ->
         Column(

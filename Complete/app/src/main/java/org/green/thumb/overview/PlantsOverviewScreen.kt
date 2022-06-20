@@ -1,13 +1,14 @@
 package org.green.thumb.overview
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -18,10 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.green.thumb.R
 import org.green.thumb.data.Plant
+import org.green.thumb.ui.composables.LazyStaggeredGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlantOverviewScreen(viewModel: PlantOverviewViewModel, onAddPlant: () -> Unit) =
+fun PlantOverviewScreen(
+    viewModel: PlantOverviewViewModel,
+    windowSize: WindowWidthSizeClass,
+    onAddPlant: () -> Unit
+) =
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = onAddPlant,
@@ -39,40 +45,22 @@ fun PlantOverviewScreen(viewModel: PlantOverviewViewModel, onAddPlant: () -> Uni
         val overviewUiState: OverviewData by viewModel.overviewData.observeAsState(OverviewData.Loading)
 
         PlantOverviewContent(
-            overviewUiState = overviewUiState, modifier = Modifier
+            overviewUiState = overviewUiState,
+            modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            windowSize = windowSize
         )
 
     }
 
 @Composable
-fun PlantOverviewContent(overviewUiState: OverviewData, modifier: Modifier = Modifier) {
-    when (overviewUiState) {
-        is OverviewData.Loading -> {
-            OverviewLoading(modifier)
-        }
-        is OverviewData.Inventory -> {
-            OverviewList(
-                inventory = overviewUiState.plants,
-                modifier = modifier
-                    .systemBarsPadding()
-                    .navigationBarsPadding()
-            )
-        }
-        is OverviewData.Error -> {
-            OverviewError(modifier)
-        }
-    }
-}
-
-@Composable
-fun OverviewList(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
-    verticalArrangement = Arrangement.spacedBy(8.dp),
-    modifier = modifier.fillMaxWidth(),
-    contentPadding = PaddingValues(bottom = 56.dp) // Accommodate space for FAB
+fun PlantOverviewContent(
+    overviewUiState: OverviewData,
+    modifier: Modifier = Modifier,
+    windowSize: WindowWidthSizeClass
 ) {
-    item("header") {
+    Column {
         Text(
             text = stringResource(id = R.string.overview_title),
             style = MaterialTheme.typography.headlineLarge,
@@ -83,9 +71,61 @@ fun OverviewList(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyCo
                 .wrapContentSize(Alignment.Center)
                 .padding(bottom = 16.dp)
         )
+        when (overviewUiState) {
+            is OverviewData.Loading -> {
+                OverviewLoading(modifier)
+            }
+            is OverviewData.Inventory -> {
+                OverviewList(
+                    inventory = overviewUiState.plants,
+                    modifier = modifier
+                        .systemBarsPadding()
+                        .navigationBarsPadding(),
+                    windowSize = windowSize
+                )
+            }
+            is OverviewData.Error -> {
+                OverviewError(modifier)
+            }
+        }
     }
-    items(inventory) { plant ->
-        PlantCard(plant)
+}
+
+@Composable
+fun OverviewList(
+    inventory: List<Plant>,
+    modifier: Modifier = Modifier,
+    windowSize: WindowWidthSizeClass
+) =
+    when (windowSize) {
+        WindowWidthSizeClass.Expanded -> OverviewListGrid(inventory, modifier, 3)
+        WindowWidthSizeClass.Medium -> OverviewListGrid(inventory, modifier, 2)
+        else -> OverviewListCompact(inventory, modifier)
+    }
+
+@Composable
+fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
+    LazyStaggeredGrid(
+        modifier = modifier,
+        contentPadding = PaddingValues(bottom = 64.dp), // Accommodate space for FAB
+        columnCount = columnCount
+    ) {
+        inventory.forEach { plant ->
+            item {
+                PlantCard(plant)
+            }
+        }
+    }
+
+@Composable
+fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyVerticalGrid(
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+    modifier = modifier.fillMaxWidth(),
+    contentPadding = PaddingValues(bottom = 56.dp), // Accommodate space for FAB
+    columns = GridCells.Adaptive(minSize = 320.dp)
+) {
+    items(inventory.size) { i ->
+        PlantCard(inventory[i])
     }
 }
 
