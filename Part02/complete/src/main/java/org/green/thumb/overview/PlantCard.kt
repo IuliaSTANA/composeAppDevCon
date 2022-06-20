@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
@@ -27,7 +28,7 @@ import org.green.thumb.ui.theme.Part02Theme
 
 @Composable
 fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
     Spacer(modifier = Modifier.height(40.dp))
     Column(
         Modifier
