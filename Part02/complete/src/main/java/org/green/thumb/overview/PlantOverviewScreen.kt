@@ -84,7 +84,7 @@ fun OverviewError(modifier: Modifier) = Column(modifier) {
 }
 
 @Composable
-fun OverviewLoading(modifier: Modifier) = Column(modifier) {
+fun OverviewLoading(modifier: Modifier) = Column(modifier.padding(16.dp)) {
     Spacer(Modifier.height(56.dp))
     Text(
         text = stringResource(id = R.string.overview_title_loading),
