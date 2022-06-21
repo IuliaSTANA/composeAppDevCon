@@ -29,7 +29,6 @@ fun PlantOverviewNavDrawerContent(
 ) {
     Column(
         modifier = Modifier
-            .systemBarsPadding()
             .wrapContentWidth()
             .fillMaxHeight()
             .background(MaterialTheme.colorScheme.inverseOnSurface)

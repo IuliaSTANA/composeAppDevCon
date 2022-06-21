@@ -36,7 +36,7 @@ fun WelcomeScreen(
                     WindowWidthSizeClass.Compact -> Keyline_Medium
                     else -> Keyline_Large
                 })
-                .navigationBarsPadding()
+                .systemBarsPadding()
         ) {
             Logo(
                 modifier = Modifier

@@ -44,8 +44,8 @@ fun PlantOverviewScreen(
             PlantOverviewNavDrawerContent(
                 selectedDestination
             )
-        }) {
-            PlantOverviewContent(
+        }, modifier = Modifier.systemBarsPadding()) {
+            PlantOverviewInner(
                 viewModel, windowSize, onAddPlant,
                 selectedDestination
             )
@@ -64,7 +64,7 @@ fun PlantOverviewScreen(
             },
             drawerState = drawerState
         ) {
-            PlantOverviewContent(viewModel, windowSize, onAddPlant,
+            PlantOverviewInner(viewModel, windowSize, onAddPlant,
                 selectedDestination,
                 onDrawerClicked = {
                     scope.launch {
@@ -77,7 +77,7 @@ fun PlantOverviewScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlantOverviewContent(
+private fun PlantOverviewInner(
     viewModel: PlantOverviewViewModel,
     windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit,
@@ -150,9 +150,7 @@ fun PlantOverviewContent(
             is OverviewData.Inventory -> {
                 OverviewList(
                     inventory = overviewUiState.plants,
-                    modifier = modifier
-                        .systemBarsPadding()
-                        .navigationBarsPadding(),
+                    modifier = modifier,
                     windowSize = windowSize
                 )
             }
