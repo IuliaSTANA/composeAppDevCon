@@ -1,25 +1,32 @@
 package org.green.thumb.overview
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 import org.green.thumb.ui.composables.StaggeredVerticalGrid
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,32 +34,84 @@ fun PlantOverviewScreen(
     viewModel: PlantOverviewViewModel,
     windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit
-) =
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(
-            onClick = onAddPlant,
+) {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val selectedDestination = PlantOviewviewDestinations.INVENTORY
+
+    ModalNavigationDrawer(
+        drawerContent = {
+            PlantOverviewNavDrawerContent(
+                selectedDestination,
+                onDrawerClicked = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
+            )
+        },
+        drawerState = drawerState
+    ) {
+        PlantOverviewContent(viewModel, windowSize, onAddPlant,
+            selectedDestination,
+            onDrawerClicked = {
+                scope.launch {
+                    drawerState.open()
+                }
+            })
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PlantOverviewContent(
+    viewModel: PlantOverviewViewModel,
+    windowSize: WindowWidthSizeClass,
+    onAddPlant: () -> Unit,
+    selectedDestination: PlantOviewviewDestinations,
+    onDrawerClicked: () -> Unit = {}
+) = Row(
+    modifier = Modifier
+        .systemBarsPadding()
+        .fillMaxSize()
+) {
+    AnimatedVisibility(visible = windowSize != WindowWidthSizeClass.Compact) {
+        PlantOverviewNavRailContent(selectedDestination, onDrawerClicked)
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = onAddPlant,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    backgroundColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Filled.Add, stringResource(id = R.string.add_plant))
+                }
+            },
             modifier = Modifier
-                .systemBarsPadding()
-                .navigationBarsPadding(),
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            backgroundColor = MaterialTheme.colorScheme.primary
-        ) {
-            Icon(Icons.Filled.Add, stringResource(id = R.string.add_plant))
+                .weight(1f)
+        ) { paddingValues ->
+
+            val overviewUiState: OverviewData by viewModel.overviewData.observeAsState(OverviewData.Loading)
+
+            PlantOverviewContent(
+                overviewUiState = overviewUiState,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxWidth(),
+                windowSize = windowSize
+            )
+
+        }
+        AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Compact) {
+            PlantOverviewNavBarContent(selectedDestination)
         }
     }
-    ) { paddingValues ->
-
-        val overviewUiState: OverviewData by viewModel.overviewData.observeAsState(OverviewData.Loading)
-
-        PlantOverviewContent(
-            overviewUiState = overviewUiState,
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxWidth(),
-            windowSize = windowSize
-        )
-
-    }
+}
 
 @Composable
 fun PlantOverviewContent(
