@@ -39,26 +39,39 @@ fun PlantOverviewScreen(
     val scope = rememberCoroutineScope()
     val selectedDestination = PlantOviewviewDestinations.INVENTORY
 
-    ModalNavigationDrawer(
-        drawerContent = {
+    if (windowSize == WindowWidthSizeClass.Expanded) {
+        PermanentNavigationDrawer(drawerContent = {
             PlantOverviewNavDrawerContent(
+                selectedDestination
+            )
+        }) {
+            PlantOverviewContent(
+                viewModel, windowSize, onAddPlant,
+                selectedDestination
+            )
+        }
+    } else {
+        ModalNavigationDrawer(
+            drawerContent = {
+                PlantOverviewNavDrawerContent(
+                    selectedDestination,
+                    onDrawerClicked = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                )
+            },
+            drawerState = drawerState
+        ) {
+            PlantOverviewContent(viewModel, windowSize, onAddPlant,
                 selectedDestination,
                 onDrawerClicked = {
                     scope.launch {
-                        drawerState.close()
+                        drawerState.open()
                     }
-                }
-            )
-        },
-        drawerState = drawerState
-    ) {
-        PlantOverviewContent(viewModel, windowSize, onAddPlant,
-            selectedDestination,
-            onDrawerClicked = {
-                scope.launch {
-                    drawerState.open()
-                }
-            })
+                })
+        }
     }
 }
 
@@ -75,7 +88,7 @@ fun PlantOverviewContent(
         .systemBarsPadding()
         .fillMaxSize()
 ) {
-    AnimatedVisibility(visible = windowSize != WindowWidthSizeClass.Compact) {
+    AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Medium) {
         PlantOverviewNavRailContent(selectedDestination, onDrawerClicked)
     }
     Column(
