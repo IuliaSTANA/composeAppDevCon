@@ -1,8 +1,8 @@
 package org.green.thumb.overview
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.green.thumb.R
 import org.green.thumb.data.Plant
-import org.green.thumb.ui.composables.LazyStaggeredGrid
+import org.green.thumb.ui.composables.StaggeredVerticalGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,27 +105,54 @@ fun OverviewList(
 
 @Composable
 fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
-    LazyStaggeredGrid(
-        modifier = modifier,
-        contentPadding = PaddingValues(bottom = 64.dp), // Accommodate space for FAB
-        columnCount = columnCount
+    StaggeredVerticalGrid(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        maxColumnWidth = 360.dp,
+        modifier = modifier.padding(horizontal = 8.dp),
     ) {
         inventory.forEach { plant ->
-            item {
-                PlantCard(plant)
-            }
+            PlantCard(plant)
         }
     }
 
+//@Composable
+//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
+//    LazyStaggeredGrid(
+//        modifier = modifier.padding(horizontal = 8.dp),
+//        contentPadding = PaddingValues(bottom = 64.dp), // Accommodate space for FAB
+//        columnCount = columnCount
+//    ) {
+//        inventory.forEach { plant ->
+//            item {
+//                PlantCard(plant)
+//            }
+//        }
+//    }
+
+//@Composable
+//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyVerticalGrid(
+//    verticalArrangement = Arrangement.spacedBy(16.dp),
+//    modifier = modifier
+//        .fillMaxWidth()
+//        .padding(horizontal = 8.dp),
+//    contentPadding = PaddingValues(bottom = 56.dp), // Accommodate space for FAB
+//    columns = GridCells.Adaptive(minSize = 320.dp)
+//) {
+//    items(inventory.size) { i ->
+//        PlantCard(inventory[i])
+//    }
+//}
+
 @Composable
-fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyVerticalGrid(
-    verticalArrangement = Arrangement.spacedBy(8.dp),
-    modifier = modifier.fillMaxWidth(),
-    contentPadding = PaddingValues(bottom = 56.dp), // Accommodate space for FAB
-    columns = GridCells.Adaptive(minSize = 320.dp)
+fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
+    verticalArrangement = Arrangement.spacedBy(16.dp),
+    modifier = modifier
+        .fillMaxWidth()
+        .padding(horizontal = 8.dp),
+    contentPadding = PaddingValues(bottom = 56.dp) // Accommodate space for FAB
 ) {
-    items(inventory.size) { i ->
-        PlantCard(inventory[i])
+    items(inventory) { plant ->
+        PlantCard(plant)
     }
 }
 

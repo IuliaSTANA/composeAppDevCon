@@ -1,5 +1,6 @@
 package org.green.thumb.ui.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
@@ -27,6 +28,7 @@ import kotlin.math.ceil
 fun StaggeredVerticalGrid(
     modifier: Modifier = Modifier,
     maxColumnWidth: Dp,
+    verticalArrangement: Arrangement.HorizontalOrVertical,
     content: @Composable () -> Unit
 ) {
     Layout(
@@ -38,15 +40,16 @@ fun StaggeredVerticalGrid(
         check(constraints.hasBoundedWidth) {
             "Unbounded width not supported"
         }
+        val yPadding = verticalArrangement.spacing.toPx().toInt()
         val columns = ceil(constraints.maxWidth / maxColumnWidth.toPx()).toInt()
         val columnWidth = constraints.maxWidth / columns
-        val itemConstraints = constraints.copy(maxWidth = columnWidth)
+        val itemConstraints = constraints.copy(minWidth = 0, maxWidth = columnWidth)
         val colHeights = IntArray(columns) { 0 } // track each column's height
         val placeables = measurables.map { measurable ->
             val column = shortestColumn(colHeights)
             val placeable = measurable.measure(itemConstraints)
             placeableXY[placeable] = Pair(columnWidth * column, colHeights[column])
-            colHeights[column] += placeable.height
+            colHeights[column] += placeable.height + yPadding
             placeable
         }
 

@@ -33,7 +33,7 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
     Column(
         Modifier
             .clickable(onClick = { isExpanded = !isExpanded })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 8.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Image(
@@ -46,13 +46,13 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
                 ),
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .size(48.dp)
+                    .width(48.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .padding(horizontal = 8.dp)
             ) {
                 Text(
                     text = plant.name,
@@ -61,9 +61,10 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Start,
-                    modifier = Modifier.align(Alignment.Start).animateContentSize()
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .animateContentSize()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = plant.location,
                     maxLines = if (isExpanded) 5 else 1,
@@ -71,7 +72,9 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Start,
-                    modifier = Modifier.align(Alignment.Start).animateContentSize()
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .animateContentSize()
                 )
             }
             Icon(
