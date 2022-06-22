@@ -26,7 +26,7 @@ import org.green.thumb.ui.theme.*
 @Composable
 fun WelcomeScreen(
     navigate: (String) -> Unit = {},
-    windowSize: WindowWidthSizeClass,
+    windowSize: WindowWidthSizeClass
 ) =
     Scaffold { padding ->
         Column(
@@ -36,7 +36,7 @@ fun WelcomeScreen(
                     WindowWidthSizeClass.Compact -> Keyline_Medium
                     else -> Keyline_Large
                 })
-                .navigationBarsPadding()
+                .systemBarsPadding()
         ) {
             Logo(
                 modifier = Modifier

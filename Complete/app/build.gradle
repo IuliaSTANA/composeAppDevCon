@@ -66,6 +66,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.toolingPreview
     implementation Libs.AndroidX.Compose.Navigation.nav
     implementation Libs.AndroidX.Compose.windowSizeClass
+    implementation Libs.AndroidX.Compose.runtimeLivedata
     implementation Libs.AndroidX.activityCompose
 
     implementation Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx
