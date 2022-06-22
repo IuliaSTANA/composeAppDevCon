@@ -27,60 +27,61 @@ import org.green.thumb.ui.theme.*
 fun WelcomeScreen(
     navigate: (String) -> Unit = {},
     windowSize: WindowWidthSizeClass
-) =
-    Scaffold { padding ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = when (windowSize) {
+) = Scaffold { padding ->
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = when (windowSize) {
                     WindowWidthSizeClass.Compact -> Keyline_Medium
                     else -> Keyline_Large
-                })
-                .systemBarsPadding()
-        ) {
-            Logo(
-                modifier = Modifier
-                    .fillMaxWidth()
+                }
             )
-            Title(
-                title = stringResource(R.string.welcome_title),
-                modifier = Modifier
-                    .fillMaxWidth()
+            .systemBarsPadding()
+    ) {
+        Logo(
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Title(
+            title = stringResource(R.string.welcome_title),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Spacer(Modifier.height(SpacingLarge_TitleToBody))
+        Text(
+            text = stringResource(R.string.welcome_description),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+        val pagerState = rememberPagerState()
+        HorizontalPager(
+            count = 4,
+            state = pagerState,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) { page ->
+            PagerItem(
+                page = page,
             )
-            Spacer(Modifier.height(SpacingLarge_TitleToBody))
-            Text(
-                text = stringResource(R.string.welcome_description),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            val pagerState = rememberPagerState()
-            HorizontalPager(
-                count = 4,
-                state = pagerState,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            ) { page ->
-                PagerItem(
-                    page = page,
-                )
-            }
-
-            HorizontalPagerIndicator(
-                pagerState = pagerState,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp),
-            )
-
-            ActionsBlock(
-                pagerState = pagerState,
-                navigate = navigate,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-
-            Spacer(Modifier.height(SpacingMedium_FooterToBottomEdge))
         }
+
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(16.dp),
+        )
+
+        ActionsBlock(
+            pagerState = pagerState,
+            navigate = navigate,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(Modifier.height(SpacingMedium_FooterToBottomEdge))
     }
+}
 
 
 @Preview(name = "Light Mode")
@@ -90,12 +91,10 @@ fun WelcomeScreen(
     name = "Dark Mode"
 )
 @Composable
-private fun Welcome_Preview() {
-    GreenThumbsTheme {
-        WelcomeScreen(
-            windowSize = WindowWidthSizeClass.Compact
-        )
-    }
+private fun Welcome_Preview() = GreenThumbsTheme {
+    WelcomeScreen(
+        windowSize = WindowWidthSizeClass.Compact
+    )
 }
 
 @Preview(name = "Light Mode", widthDp = 700)
@@ -106,10 +105,8 @@ private fun Welcome_Preview() {
     widthDp = 700
 )
 @Composable
-private fun Welcome_Preview_Tablet() {
-    GreenThumbsTheme {
-        WelcomeScreen(
-            windowSize = WindowWidthSizeClass.Medium
-        )
-    }
+private fun Welcome_Preview_Tablet() = GreenThumbsTheme {
+    WelcomeScreen(
+        windowSize = WindowWidthSizeClass.Medium
+    )
 }

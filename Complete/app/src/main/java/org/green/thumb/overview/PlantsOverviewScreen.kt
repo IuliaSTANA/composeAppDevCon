@@ -1,14 +1,13 @@
 package org.green.thumb.overview
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -17,8 +16,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,7 +23,6 @@ import kotlinx.coroutines.launch
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 import org.green.thumb.ui.composables.StaggeredVerticalGrid
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,38 +36,43 @@ fun PlantOverviewScreen(
     val selectedDestination = PlantOviewviewDestinations.INVENTORY
 
     if (windowSize == WindowWidthSizeClass.Expanded) {
-        PermanentNavigationDrawer(drawerContent = {
-            PlantOverviewNavDrawerContent(
-                selectedDestination
-            )
-        }, modifier = Modifier.systemBarsPadding()) {
-            PlantOverviewInner(
-                viewModel, windowSize, onAddPlant,
-                selectedDestination
-            )
-        }
+        PermanentNavigationDrawer(
+            drawerContent = {
+                PlantOverviewNavDrawerContent(
+                    selectedDestination
+                )
+            },
+            modifier = Modifier.systemBarsPadding(),
+            content = {
+                PlantOverviewInner(
+                    viewModel, windowSize, onAddPlant,
+                    selectedDestination
+                )
+            }
+        )
     } else {
         ModalNavigationDrawer(
             drawerContent = {
                 PlantOverviewNavDrawerContent(
                     selectedDestination,
-                    onDrawerClicked = {
+                    onDrawerClick = {
                         scope.launch {
                             drawerState.close()
                         }
                     }
                 )
             },
-            drawerState = drawerState
-        ) {
-            PlantOverviewInner(viewModel, windowSize, onAddPlant,
-                selectedDestination,
-                onDrawerClicked = {
-                    scope.launch {
-                        drawerState.open()
-                    }
-                })
-        }
+            drawerState = drawerState,
+            content = {
+                PlantOverviewInner(viewModel, windowSize, onAddPlant,
+                    selectedDestination,
+                    onDrawerClicked = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    })
+            }
+        )
     }
 }
 
