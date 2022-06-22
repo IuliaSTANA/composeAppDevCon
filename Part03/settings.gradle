@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GreenThumb"
-include ':app'
+include ':complete'
