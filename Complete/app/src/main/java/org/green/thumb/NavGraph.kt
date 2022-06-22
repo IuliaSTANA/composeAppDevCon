@@ -29,7 +29,7 @@ fun NavGraph(windowSize: WindowWidthSizeClass) {
             WelcomeScreen(navController::navigate, windowSize)
         }
         composable(Overview) {
-            PlantOverviewScreen(PlantOverviewViewModel()) { navController.navigate(AddPlant) }
+            PlantOverviewScreen(PlantOverviewViewModel(), windowSize) { navController.navigate(AddPlant) }
         }
     }
 }

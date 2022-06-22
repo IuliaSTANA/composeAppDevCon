@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.green.thumb.R
@@ -32,7 +33,7 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
     Column(
         Modifier
             .clickable(onClick = { isExpanded = !isExpanded })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 8.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Image(
@@ -45,28 +46,35 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
                 ),
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .size(48.dp)
+                    .width(48.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .padding(horizontal = 8.dp)
             ) {
                 Text(
                     text = plant.name,
+                    maxLines = if (isExpanded) 5 else 1,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.align(Alignment.Start)
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .animateContentSize()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = plant.location,
+                    maxLines = if (isExpanded) 5 else 1,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.secondary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.align(Alignment.Start)
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .animateContentSize()
                 )
             }
             Icon(
@@ -80,35 +88,40 @@ fun PlantCard(plant: Plant, modifier: Modifier = Modifier) = Column(modifier) {
             )
         }
 
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.primary,
+        Column(
             modifier = Modifier
                 .animateContentSize()
-                .padding(top = 8.dp)
         ) {
             if (isExpanded) {
-                Column(modifier = Modifier.padding(8.dp)) {
-                    if (plant.careLog.isEmpty()) {
-                        Text(
-                            text = "No logs yet.",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = 4.dp),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    } else {
-                        for (care in plant.careLog) {
+                Surface(
+                    shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        if (plant.careLog.isEmpty()) {
                             Text(
-                                text = "${care.date}: ${care.description}",
+                                text = "No logs yet.",
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(all = 4.dp),
                                 style = MaterialTheme.typography.bodyMedium
                             )
+                        } else {
+                            for (care in plant.careLog) {
+                                Text(
+                                    text = "${care.date}: ${care.description}",
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(all = 4.dp),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

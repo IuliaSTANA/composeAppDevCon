@@ -41,7 +41,6 @@ fun AddEditPlantScreen(
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier
-        .systemBarsPadding()
         .navigationBarsPadding(),
 ) { paddingValues ->
 
