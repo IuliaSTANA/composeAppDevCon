@@ -27,7 +27,9 @@ After completing part 3 of the workshop you should be able to:
    elegant way to put it to use based on `WindowWidthSizeClass`?
 7. **Q:** Finally, let's implement some placeholder navigation components. Three placeholders have
    been created:
+   
    - PlantOverviewNavDrawerContent() for the navigation drawer
    - PlantOverviewNavRailContent() for the navigation rail
    - PlantOverviewNavBarContent() for the navigation bar
+   
    Can you implement the best component based on `WindowWidthSizeClass`?
