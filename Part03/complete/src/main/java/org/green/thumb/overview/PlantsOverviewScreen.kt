@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -177,12 +179,12 @@ fun OverviewList(
 @Composable
 fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
     StaggeredVerticalGrid(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
         maxColumnWidth = 360.dp,
-        modifier = modifier.padding(horizontal = 8.dp),
+        modifier = modifier
+            .padding(horizontal = 8.dp)
     ) {
         inventory.forEach { plant ->
-            PlantCard(plant)
+            PlantCard(plant, collapsable = false)
         }
     }
 
@@ -216,14 +218,13 @@ fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, colu
 
 @Composable
 fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
-    verticalArrangement = Arrangement.spacedBy(16.dp),
     modifier = modifier
         .fillMaxWidth()
         .padding(horizontal = 8.dp),
     contentPadding = PaddingValues(bottom = 56.dp) // Accommodate space for FAB
 ) {
     items(inventory) { plant ->
-        PlantCard(plant)
+        PlantCard(plant, collapsable = true)
     }
 }
 

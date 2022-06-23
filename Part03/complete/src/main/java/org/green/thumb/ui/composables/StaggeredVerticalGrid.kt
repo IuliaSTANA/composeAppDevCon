@@ -1,6 +1,8 @@
 package org.green.thumb.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
@@ -28,12 +30,13 @@ import kotlin.math.ceil
 fun StaggeredVerticalGrid(
     modifier: Modifier = Modifier,
     maxColumnWidth: Dp,
-    verticalArrangement: Arrangement.HorizontalOrVertical,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     content: @Composable () -> Unit
 ) {
     Layout(
         content = content,
         modifier = modifier
+            .verticalScroll(rememberScrollState())
     ) { measurables, constraints ->
         val placeableXY: MutableMap<Placeable, Pair<Int, Int>> = mutableMapOf()
 
