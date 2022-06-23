@@ -16,7 +16,7 @@ fun NavGraph(windowSize: WindowWidthSizeClass) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Overview
+        startDestination = Welcome
     ) {
         composable(AddPlant) {
             AddEditPlantScreen(
