@@ -25,19 +25,12 @@ import org.green.thumb.ui.theme.*
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun WelcomeScreen(
-    navigate: (String) -> Unit = {},
-    windowSize: WindowWidthSizeClass
+    navigate: (String) -> Unit = {}
 ) = Scaffold { padding ->
     Column(
         Modifier
             .fillMaxSize()
-            .padding(
-                horizontal = when (windowSize) {
-                    WindowWidthSizeClass.Compact -> 16.dp
-                    else -> 72.dp
-                }
-            )
-            .systemBarsPadding()
+            .padding(16.dp)
     ) {
         Logo(
             modifier = Modifier
@@ -83,7 +76,6 @@ fun WelcomeScreen(
     }
 }
 
-
 @Preview(name = "Light Mode")
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -92,9 +84,7 @@ fun WelcomeScreen(
 )
 @Composable
 private fun Welcome_Preview() = GreenThumbsTheme {
-    WelcomeScreen(
-        windowSize = WindowWidthSizeClass.Compact
-    )
+    WelcomeScreen()
 }
 
 @Preview(name = "Light Mode", widthDp = 700)
@@ -106,7 +96,5 @@ private fun Welcome_Preview() = GreenThumbsTheme {
 )
 @Composable
 private fun Welcome_Preview_Tablet() = GreenThumbsTheme {
-    WelcomeScreen(
-        windowSize = WindowWidthSizeClass.Medium
-    )
+    WelcomeScreen()
 }

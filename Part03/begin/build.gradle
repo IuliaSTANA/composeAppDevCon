@@ -1,0 +1,88 @@
+import org.green.thumb.Config
+import org.green.thumb.Libs
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+def versionNameFile = new File("version_name.txt")
+def appName = versionNameFile.exists() ? versionNameFile.text.trim() as String : ""
+
+android {
+    compileSdk Config.compileSdk
+
+    defaultConfig {
+        applicationId "org.green.thumbs"
+        minSdk Config.minSdk
+        targetSdk Config.targetSdk
+        versionCode 1
+        versionName appName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.incremental": "true"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring Libs.desugaring
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.Compose.ui
+    implementation Libs.AndroidX.Compose.Material3.designMaterial3
+    implementation Libs.AndroidX.Compose.toolingPreview
+    implementation Libs.AndroidX.Compose.Navigation.nav
+    implementation Libs.AndroidX.Compose.windowSizeClass
+    implementation Libs.AndroidX.Compose.runtimeLivedata
+    implementation Libs.AndroidX.activityCompose
+
+    implementation Libs.AndroidX.Lifecycle.lifecycleRuntimeKtx
+    implementation Libs.AndroidX.Lifecycle.livedataKtx
+
+    implementation Libs.Accompanist.pager
+    implementation Libs.Accompanist.pagerIndicators
+
+    implementation Libs.Hilt.android
+    implementation Libs.Hilt.navigation
+    kapt Libs.Hilt.compiler
+
+    implementation Libs.Room.runtime
+    implementation Libs.Room.ktx
+    kapt Libs.Room.compiler
+
+    debugImplementation Libs.AndroidX.Compose.tooling
+    debugImplementation Libs.AndroidX.Compose.testManifest
+}

@@ -1,6 +1,5 @@
 package org.green.thumb.overview
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 import org.green.thumb.ui.composables.StaggeredVerticalGrid
@@ -28,70 +26,29 @@ import org.green.thumb.ui.composables.StaggeredVerticalGrid
 @Composable
 fun PlantOverviewScreen(
     viewModel: PlantOverviewViewModel,
-    windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val selectedDestination = PlantOviewviewDestinations.INVENTORY
 
-    if (windowSize == WindowWidthSizeClass.Expanded) {
-        PermanentNavigationDrawer(
-            drawerContent = {
-                PlantOverviewNavDrawerContent(
-                    selectedDestination
-                )
-            },
-            modifier = Modifier.systemBarsPadding(),
-            content = {
-                PlantOverviewInner(
-                    viewModel, windowSize, onAddPlant,
-                    selectedDestination
-                )
-            }
-        )
-    } else {
-        ModalNavigationDrawer(
-            drawerContent = {
-                PlantOverviewNavDrawerContent(
-                    selectedDestination,
-                    onDrawerClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-                    }
-                )
-            },
-            drawerState = drawerState,
-            content = {
-                PlantOverviewInner(viewModel, windowSize, onAddPlant,
-                    selectedDestination,
-                    onDrawerClicked = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    })
-            }
-        )
-    }
+    PlantOverviewInner(
+        viewModel, onAddPlant,
+        selectedDestination
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PlantOverviewInner(
     viewModel: PlantOverviewViewModel,
-    windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit,
     selectedDestination: PlantOviewviewDestinations,
     onDrawerClicked: () -> Unit = {}
 ) = Row(
     modifier = Modifier
-        .systemBarsPadding()
         .fillMaxSize()
 ) {
-    AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Medium) {
-        PlantOverviewNavRailContent(selectedDestination, onDrawerClicked)
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,13 +73,9 @@ private fun PlantOverviewInner(
                 overviewUiState = overviewUiState,
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxWidth(),
-                windowSize = windowSize
+                    .fillMaxWidth()
             )
 
-        }
-        AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Compact) {
-            PlantOverviewNavBarContent(selectedDestination)
         }
     }
 }
@@ -130,8 +83,7 @@ private fun PlantOverviewInner(
 @Composable
 fun PlantOverviewContent(
     overviewUiState: OverviewData,
-    modifier: Modifier = Modifier,
-    windowSize: WindowWidthSizeClass
+    modifier: Modifier = Modifier
 ) {
     Column {
         Text(
@@ -151,8 +103,7 @@ fun PlantOverviewContent(
             is OverviewData.Inventory -> {
                 OverviewList(
                     inventory = overviewUiState.plants,
-                    modifier = modifier,
-                    windowSize = windowSize
+                    modifier = modifier
                 )
             }
             is OverviewData.Error -> {
@@ -165,14 +116,9 @@ fun PlantOverviewContent(
 @Composable
 fun OverviewList(
     inventory: List<Plant>,
-    modifier: Modifier = Modifier,
-    windowSize: WindowWidthSizeClass
+    modifier: Modifier = Modifier
 ) =
-    when (windowSize) {
-        WindowWidthSizeClass.Expanded -> OverviewListGrid(inventory, modifier)
-        WindowWidthSizeClass.Medium -> OverviewListGrid(inventory, modifier)
-        else -> OverviewListCompact(inventory, modifier)
-    }
+    OverviewListCompact(inventory, modifier)
 
 @Composable
 fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) =
