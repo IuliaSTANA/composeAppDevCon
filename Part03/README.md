@@ -20,6 +20,14 @@ After completing part 3 of the workshop you should be able to:
    reference into Composables.
 3. **Q:** Now, see how you can leverage these size classes to offer better whitespace on larger screens,
    for instance by adding padding to `WelcomeScreen`.
-4. **Q:** Review how the app looks on large screens with a taskbar. Can you accommodate for both top
+4. **Q:** Can you also update the `@Preview`s for `WelcomeScreen` to show a phone and tablet preview?
+5. **Q:** Review how the app looks on large screens with a taskbar. Can you accommodate for both top
    and bottom insets by using `systemBarsPadding()`?
-5. **Q:** Can you also update the `@Preview`s for `WelcomeScreen` to show a phone and tablet preview?
+6. **Q:** `OverviewListGrid` has been provided for you to use on larger screens. Can you find an 
+   elegant way to put it to use based on `WindowWidthSizeClass`?
+7. **Q:** Finally, let's implement some placeholder navigation components. Three placeholders have
+   been created:
+   - PlantOverviewNavDrawerContent() for the navigation drawer
+   - PlantOverviewNavRailContent() for the navigation rail
+   - PlantOverviewNavBarContent() for the navigation bar
+   Can you implement the best component based on `WindowWidthSizeClass`?
