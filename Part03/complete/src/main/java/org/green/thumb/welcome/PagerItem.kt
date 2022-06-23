@@ -26,7 +26,6 @@ internal fun PagerItem(page: Int) {
     }
 }
 
-
 private fun Int.isFirst(): Boolean = this == 0
 private fun Int.isSecond(): Boolean = this == 1
 private fun Int.isThird(): Boolean = this == 2

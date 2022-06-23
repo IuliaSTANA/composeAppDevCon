@@ -25,10 +25,10 @@ enum class PlantOviewviewDestinations(val title: String, val icon: ImageVector) 
 fun PlantOverviewNavDrawerContent(
     selectedDestination: PlantOviewviewDestinations,
     modifier: Modifier = Modifier,
-    onDrawerClicked: () -> Unit = {}
+    onDrawerClick: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentWidth()
             .fillMaxHeight()
             .background(MaterialTheme.colorScheme.inverseOnSurface)
@@ -47,7 +47,7 @@ fun PlantOverviewNavDrawerContent(
                 colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.Transparent),
                 onClick = {
                     // TODO
-                    onDrawerClicked.invoke()
+                    onDrawerClick.invoke()
                 }
             )
         }
