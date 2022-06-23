@@ -13,4 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GreenThumb"
+include ':begin'
 include ':complete'
