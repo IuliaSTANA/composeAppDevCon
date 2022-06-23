@@ -62,9 +62,10 @@ fun PlantOverview(inventory: List<Plant>, onAddPlant: () -> Unit) =
     }
 ```
 
-**3. Explain what happens when you try to change the text in the name input field
-in `AddEditPlantContent`. Why is the field not updating? How can it be updated? Implement the plant
-input form so that it can accept user input**<br />
+**3. Implement the plant input form so that it can accept user input (handle only input for now,
+save & navigation will be done later). Explain what happens when you try to change the text in the
+name input field in `AddEditPlantContent`. Why is the field not updating? How can it be
+updated?**<br />
 **Answer:**<br />
 
 When running the current code in `AddEditPlantContent` the text input field does not change. This is
@@ -84,10 +85,20 @@ types [State](https://developer.android.com/reference/kotlin/androidx/compose/ru
 or [MutableState](https://developer.android.com/reference/kotlin/androidx/compose/runtime/MutableState)
 you can tell compose what it needs to keep track of.
 
+```
+interface State<T : Any?>
+
+A value holder where reads to the value property during the execution of a Composable function, the current RecomposeScope will be subscribed to changes of that value.
+```
+
+<details>
+  <summary>Definitions reminder: </summary>
+
 > *Reminder:* <br />
 > **Composition:** the UI built by the Compose compiler when it executes composable functions. <br />
 > **Initial composition:** creation of a Composition by running composables the first time. <br />
 > **Recomposition:** re-running composables to update the Composition when data changes. <br />
+</details>
 
 Compose has a special state tracking system in place that schedules recompositions for any
 composables that read a particular state. This lets Compose be granular and just recompose those
@@ -123,7 +134,7 @@ OutlinedTextField(
 
 > - For [LiveData](https://developer.android.com/reference/kotlin/androidx/compose/runtime/livedata/package-summary) you can use `observeAsState`
 > - For [Flow](https://developer.android.com/reference/kotlin/androidx/compose/runtime/package-summary#(kotlinx.coroutines.flow.StateFlow).collectAsState(kotlin.coroutines.CoroutineContext)) there is `collectAsState`
-> - For [Rx2](https://developer.android.com/reference/kotlin/androidx/compose/runtime/rxjava2/package-summary) there is `observeAsState`
+> - For [Rx2](https://developer.android.com/reference/kotlin/androidx/compose/runtime/rxjava2/package-summary) there is `subscribeAsState`
 </details>
 
 
@@ -148,14 +159,59 @@ used for transient state (i.e. animation state).
 ###### Storing state works with `Bundle`
 
 <details>
-  <summary>Ways to store state</summary>
+  <summary>Ways to restore state</summary>
 
 All types that can go in a `Bundle` will automatically work for the `remember` functions. If you
 have custom types that need to be stored, the options are:
 
-- `@Parcelize`: [example](https://developer.android.com/jetpack/compose/state#parcelize)
-- `MapSaver`: [example](https://developer.android.com/jetpack/compose/state#mapsaver)
-- `ListSaver`: [example](https://developer.android.com/jetpack/compose/state#listsaver)
+- [@Parcelize](https://developer.android.com/jetpack/compose/state#parcelize)
+
+```
+@Parcelize
+data class Plant(
+    val name: String = "",
+    val location: String = "",
+    val wateringFrequency: Int = 0,
+    val careLog: List<PlantCare> = emptyList(),
+) : Parcelable
+```
+
+- [MapSaver](https://developer.android.com/jetpack/compose/state#mapsaver)
+
+```
+data class PlantCare(val description: String, val date: LocalDate)
+val PlantCareSaver = run {
+    val descriptionKey = "description"
+    val dateKey = "date"
+    mapSaver(
+        save = { mapOf(descriptionKey to it.description, dateKey to it.date) },
+        restore = { PlantCare(it[descriptionKey] as String, it[dateKey] as LocalDate) }
+    )
+}
+@Composable
+fun PlantCareCard() {
+    var careLog = rememberSaveable(stateSaver = PlantCareSaver) {
+        mutableStateOf(PlantCare("Watered", LocalDate.of(2022, 1, 16)))
+    }
+}
+```
+
+- [ListSaver](https://developer.android.com/jetpack/compose/state#listsaver)
+
+```
+data class PlantCare(val description: String, val date: LocalDate)
+val PlantCareSaver = listSaver<PlantCare, Any>(
+    save = { listOf(it.description, it.date) },
+    restore = { PlantCare(it[0] as String, it[1] as LocalDate) }
+)
+
+@Composable
+fun PlantCareCard() {
+    var careLog = rememberSaveable(stateSaver = PlantCareSaver) {
+        mutableStateOf(PlantCare("Watered", LocalDate.of(2022, 1, 16)))
+    }
+}
+```
 
 </details>
 
@@ -179,8 +235,10 @@ OutlinedTextField(
 ```
 
 It is safe to make changes to the state in the `onValueChange` (or any callback triggered by user
-input, `onClick`, ) because the callback itself is not a composable function. In fact, it comes with
-the guarantee that the callbacks are always executed on the main UI thread.
+input or interaction: `onClick`, `onValueChange`, `onCheck`, etc) because the callback itself is not
+a composable function. In fact, it comes with the guarantee that the callbacks are always executed
+on the main UI thread. Denote that the parameter name for the event handler is in the present tense
+because you have to handle the interaction **as it happens** and update the state accordingly.
 > **Rule:** You should only mutate state outside the scope of a composable function, (i.e. in
 > callbacks or using the [Side Effects API](https://developer.android.com/jetpack/compose/side-effects)) <br />
 > This is because:<br />
@@ -204,7 +262,9 @@ Use the one that works best for you.
 
 In order to implement the watering frequency dropdown selection, use the already
 defined [DropDownField](begin/src/main/java/org/green/thumb/addedit/DropDownField.kt). To disable
-the `Save` button while the name is invalid you can use the property `enabled`.
+the `Save` button while the name is invalid you can use the property `enabled`. Once you are able to
+handle form input your code should be similar to the composable function in
+[AddEditPlantContentStateful](begin/src/main/java/org/green/thumb/addedit/qa3/StatefullComposable.kt)
 
 **4: Make the required changes to `AddEditPlantContent` so that it becomes a stateless
 composable.**<br />
@@ -234,14 +294,20 @@ onLocationChange: (String) -> Unit,
 ```
 
 > **Rule** Use the unidirectional data flow pattern: Composables should receive state as parameters and communicate events up using lambdas. <br />
->
-> **~~Rule:~~ <br />Guidelines:**
-> * Goldilocks zone: don't move the state higher or lower than you need it for either reading/writing.
-> * Birds of a feather stick together: If two states change in response to the same event they should be hoisted together.
-> * Code smells to look out for: unused parameters, too long parameter list.
+> ![layout](media/UDF-model.png) <br />
+> **~~Rule~~ Guidelines:**<br />
+> * **Goldilocks zone**: don't move the state higher or lower than you need it for either reading/writing.
+> * **Birds of a feather stick together**: If two states change in response to the same event they should be hoisted together.
+    >
+
+* Code smells to look out for: unused parameters, too long parameter list.
+
 > * Don't pass the state to where it's not needed
-> * Your composables can have other composables as parameters
-> * Use previews: having previews for your composable is a good [litmus test](https://en.wikipedia.org/wiki/Litmus#Uses) for whether your function is self-contained.
+    >
+
+* Your composables can have other composables as parameters
+
+> * *Use previews*: having previews for your composable is a good [litmus test](https://en.wikipedia.org/wiki/Litmus#Uses) for whether your function is self-contained.
 
 The `AddEditPlantContent` needs to take the following parameters to become stateless
 
@@ -261,36 +327,20 @@ fun AddEditPlantContent(
 )
 ```
 
-**4: Use a plain state holder to handle name validation and navigating back after saving the plant
+After you are finished hoisting the state and are correctly handling passing the events back your
+code should look similarly to the code
+in [AddEditPlantScreenStateless](begin/src/main/java/org/green/thumb/addedit/qa4/StatelessComposable.kt) <br />
+
+**5: Use a plain state holder to handle name validation and navigating back after saving the plant
 form.**<br />
 **Answer** <br />
+Often times the state used in composable can grow and the UI logic required grows with it. To solve
+this you can extract both the state and the UI logic into a plain class. However, you still have to
+ensure that this object not recreated with every recomposition. To do this you can use `remember`.
+You can find the working solution
+in [PlainStateHolder](begin/src/main/java/org/green/thumb/addedit/qa5/PlainStateHolder.kt) <br />
 
-### Notes/conclusions for the presentation:
-
-State that is hoisted this way has some important properties:
-
-    Single source of truth: By moving state instead of duplicating it, we're ensuring there's only one source of truth. This helps avoid bugs.
-    Shareable: Hoisted state can be shared with multiple composables.
-    Interceptable: Callers to the stateless composables can decide to ignore or modify events before changing the state.
-    Decoupled: The state for a stateless composable function can be stored anywhere. For example, in a ViewModel.
-
-State up & events down == unidirectional data flow
-
-Composables should maximize cohesion & minimize coupling
-
-Law of Demeter: the principle of least knowledge
-
-State holders = hoisted state objects More than one solution, use the one that fits your complexity
-
-1 - Composables do simple UI management
-
-2 - State holders
-
-* have more complex UI state management: own UI elements
-* include state & UI logic
-
-3 - View Models
-
-* special type of state holder
-* provide access to BL
-* manage the screen or UI state
+**6: Refactor the `PlantOverview` so that it uses the `PlantOverviewViewModel` and can show the 3
+states for the content: loading, error and the list overview.** <br />
+**Answer** <br />
+Apply the same 

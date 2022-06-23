@@ -18,7 +18,7 @@ fun rememberAddEditPlantState(
     context: Context = LocalContext.current,
 ): AddEditPlantState {
     val currentOnPlantSavedState by rememberUpdatedState(onPlantSaved)
-    // If any of the parameters passed to `remember` change, a new instance of AddEditTaskState
+    // If any of the parameters passed to `remember` change, a new instance of AddEditPlantState
     // will be created, and the old one will be destroyed.
     return remember(plantId, viewModel, lifecycleOwner, context) {
         AddEditPlantState(

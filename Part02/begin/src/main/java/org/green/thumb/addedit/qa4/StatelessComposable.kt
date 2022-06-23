@@ -19,7 +19,7 @@ import org.green.thumb.data.Plant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEditPlantScreen(
+fun AddEditPlantScreenStateless(
     viewModel: AddEditPlantViewModel,
     modifier: Modifier = Modifier,
 ) = Scaffold(

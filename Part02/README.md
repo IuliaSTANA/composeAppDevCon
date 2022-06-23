@@ -27,22 +27,21 @@ functionality step by step:<br />
 ![layout](media/addplant_01.gif)<br />
 </details>
 
-
 * The screen includes 2 text input fields with keyboard navigation support (actions next & done)
 * Empty name for the plant is not allowed: text shows an error and save operation is not allowed.
 * Watering frequency is selected via a dropdown list.
 * Once save is finished the screen closes and the app navigates back to the overview list.
 
-3. **Q:** Explain what happens when you try to change the text in the name input field
-   in `AddEditPlantContent`. Why is the field not updating? How can it be updated? Implement the
-   plant input form so that it can accept user input.
+3. **Q:** Implement the plant input form so that it can accept user input (handle only input for
+   now, save & navigation will be done later). Explain what happens when you try to change the text
+   in the name input field in `AddEditPlantContent`. Why is the field not updating? How can it be
+   updated?
 4. **Q:** Make the required changes to `AddEditPlantContent` so that it becomes a stateless
    composable.
 5. **Q:** Use a plain state holder to handle name validation and navigating back after saving the
    plant form.
-
-Refactor the `PlantOverview` so that it uses the `PlantOverviewViewModel` and can show the 3 states
-for the content: loading, error and the list overview.
+6. **Q:** Refactor the `PlantOverview` so that it uses the `PlantOverviewViewModel` and can show the
+   3 states for the content: loading, error and the list overview.
 
 Resources & further reading:
 
