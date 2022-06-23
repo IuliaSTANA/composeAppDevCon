@@ -4,8 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -171,13 +169,13 @@ fun OverviewList(
     windowSize: WindowWidthSizeClass
 ) =
     when (windowSize) {
-        WindowWidthSizeClass.Expanded -> OverviewListGrid(inventory, modifier, 3)
-        WindowWidthSizeClass.Medium -> OverviewListGrid(inventory, modifier, 2)
+        WindowWidthSizeClass.Expanded -> OverviewListGrid(inventory, modifier)
+        WindowWidthSizeClass.Medium -> OverviewListGrid(inventory, modifier)
         else -> OverviewListCompact(inventory, modifier)
     }
 
 @Composable
-fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
+fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) =
     StaggeredVerticalGrid(
         maxColumnWidth = 360.dp,
         modifier = modifier

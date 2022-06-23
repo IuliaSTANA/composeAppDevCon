@@ -1,11 +1,8 @@
 package org.green.thumb.overview
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -21,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import org.green.thumb.R
 import org.green.thumb.data.Plant
 import org.green.thumb.ui.composables.StaggeredVerticalGrid
@@ -132,7 +128,7 @@ fun OverviewList(
     OverviewListCompact(inventory, modifier)
 
 @Composable
-fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
+fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) =
     StaggeredVerticalGrid(
         maxColumnWidth = 360.dp,
         modifier = modifier
