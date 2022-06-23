@@ -12,7 +12,7 @@ import org.green.thumb.plant.addedit.AddEditPlantViewModel
 import org.green.thumb.welcome.WelcomeScreen
 
 @Composable
-fun NavGraph(windowSize: WindowWidthSizeClass) {
+fun NavGraph() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -26,10 +26,10 @@ fun NavGraph(windowSize: WindowWidthSizeClass) {
             )
         }
         composable(Welcome) {
-            WelcomeScreen(navController::navigate, windowSize)
+            WelcomeScreen(navController::navigate)
         }
         composable(Overview) {
-            PlantOverviewScreen(PlantOverviewViewModel(), windowSize) { navController.navigate(AddPlant) }
+            PlantOverviewScreen(PlantOverviewViewModel()) { navController.navigate(AddPlant) }
         }
     }
 }

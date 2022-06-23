@@ -15,8 +15,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             GreenThumbsTheme {
-                val windowSize = calculateWindowSizeClass(this)
-                NavGraph(windowSize.widthSizeClass)
+                NavGraph()
             }
         }
     }

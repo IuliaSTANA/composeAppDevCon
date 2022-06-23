@@ -26,7 +26,6 @@ import org.green.thumb.ui.composables.StaggeredVerticalGrid
 @Composable
 fun PlantOverviewScreen(
     viewModel: PlantOverviewViewModel,
-    windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -34,7 +33,7 @@ fun PlantOverviewScreen(
     val selectedDestination = PlantOviewviewDestinations.INVENTORY
 
     PlantOverviewInner(
-        viewModel, windowSize, onAddPlant,
+        viewModel, onAddPlant,
         selectedDestination
     )
 }
@@ -43,13 +42,11 @@ fun PlantOverviewScreen(
 @Composable
 private fun PlantOverviewInner(
     viewModel: PlantOverviewViewModel,
-    windowSize: WindowWidthSizeClass,
     onAddPlant: () -> Unit,
     selectedDestination: PlantOviewviewDestinations,
     onDrawerClicked: () -> Unit = {}
 ) = Row(
     modifier = Modifier
-        .systemBarsPadding()
         .fillMaxSize()
 ) {
     Column(
@@ -76,8 +73,7 @@ private fun PlantOverviewInner(
                 overviewUiState = overviewUiState,
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxWidth(),
-                windowSize = windowSize
+                    .fillMaxWidth()
             )
 
         }
@@ -87,8 +83,7 @@ private fun PlantOverviewInner(
 @Composable
 fun PlantOverviewContent(
     overviewUiState: OverviewData,
-    modifier: Modifier = Modifier,
-    windowSize: WindowWidthSizeClass
+    modifier: Modifier = Modifier
 ) {
     Column {
         Text(
@@ -108,8 +103,7 @@ fun PlantOverviewContent(
             is OverviewData.Inventory -> {
                 OverviewList(
                     inventory = overviewUiState.plants,
-                    modifier = modifier,
-                    windowSize = windowSize
+                    modifier = modifier
                 )
             }
             is OverviewData.Error -> {
@@ -122,8 +116,7 @@ fun PlantOverviewContent(
 @Composable
 fun OverviewList(
     inventory: List<Plant>,
-    modifier: Modifier = Modifier,
-    windowSize: WindowWidthSizeClass
+    modifier: Modifier = Modifier
 ) =
     OverviewListCompact(inventory, modifier)
 

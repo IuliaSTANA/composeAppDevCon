@@ -33,8 +33,8 @@ fun WelcomeScreen(
             .fillMaxSize()
             .padding(
                 horizontal = when (windowSize) {
-                    WindowWidthSizeClass.Compact -> Keyline_Medium
-                    else -> Keyline_Large
+                    WindowWidthSizeClass.Compact -> 16.dp
+                    else -> 72.dp
                 }
             )
             .systemBarsPadding()
