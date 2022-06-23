@@ -188,34 +188,6 @@ fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, colu
         }
     }
 
-//@Composable
-//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
-//    LazyStaggeredGrid(
-//        modifier = modifier.padding(horizontal = 8.dp),
-//        contentPadding = PaddingValues(bottom = 64.dp), // Accommodate space for FAB
-//        columnCount = columnCount
-//    ) {
-//        inventory.forEach { plant ->
-//            item {
-//                PlantCard(plant)
-//            }
-//        }
-//    }
-
-//@Composable
-//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyVerticalGrid(
-//    verticalArrangement = Arrangement.spacedBy(16.dp),
-//    modifier = modifier
-//        .fillMaxWidth()
-//        .padding(horizontal = 8.dp),
-//    contentPadding = PaddingValues(bottom = 56.dp), // Accommodate space for FAB
-//    columns = GridCells.Adaptive(minSize = 320.dp)
-//) {
-//    items(inventory.size) { i ->
-//        PlantCard(inventory[i])
-//    }
-//}
-
 @Composable
 fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
     modifier = modifier

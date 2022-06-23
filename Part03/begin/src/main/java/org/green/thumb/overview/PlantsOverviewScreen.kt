@@ -37,45 +37,10 @@ fun PlantOverviewScreen(
     val scope = rememberCoroutineScope()
     val selectedDestination = PlantOviewviewDestinations.INVENTORY
 
-    if (windowSize == WindowWidthSizeClass.Expanded) {
-        PermanentNavigationDrawer(
-            drawerContent = {
-                PlantOverviewNavDrawerContent(
-                    selectedDestination
-                )
-            },
-            modifier = Modifier.systemBarsPadding(),
-            content = {
-                PlantOverviewInner(
-                    viewModel, windowSize, onAddPlant,
-                    selectedDestination
-                )
-            }
-        )
-    } else {
-        ModalNavigationDrawer(
-            drawerContent = {
-                PlantOverviewNavDrawerContent(
-                    selectedDestination,
-                    onDrawerClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-                    }
-                )
-            },
-            drawerState = drawerState,
-            content = {
-                PlantOverviewInner(viewModel, windowSize, onAddPlant,
-                    selectedDestination,
-                    onDrawerClicked = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    })
-            }
-        )
-    }
+    PlantOverviewInner(
+        viewModel, windowSize, onAddPlant,
+        selectedDestination
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,9 +56,6 @@ private fun PlantOverviewInner(
         .systemBarsPadding()
         .fillMaxSize()
 ) {
-    AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Medium) {
-        PlantOverviewNavRailContent(selectedDestination, onDrawerClicked)
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,9 +84,6 @@ private fun PlantOverviewInner(
                 windowSize = windowSize
             )
 
-        }
-        AnimatedVisibility(visible = windowSize == WindowWidthSizeClass.Compact) {
-            PlantOverviewNavBarContent(selectedDestination)
         }
     }
 }
@@ -170,11 +129,7 @@ fun OverviewList(
     modifier: Modifier = Modifier,
     windowSize: WindowWidthSizeClass
 ) =
-    when (windowSize) {
-        WindowWidthSizeClass.Expanded -> OverviewListGrid(inventory, modifier, 3)
-        WindowWidthSizeClass.Medium -> OverviewListGrid(inventory, modifier, 2)
-        else -> OverviewListCompact(inventory, modifier)
-    }
+    OverviewListCompact(inventory, modifier)
 
 @Composable
 fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
@@ -187,34 +142,6 @@ fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, colu
             PlantCard(plant, collapsable = false)
         }
     }
-
-//@Composable
-//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier, columnCount: Int = 2) =
-//    LazyStaggeredGrid(
-//        modifier = modifier.padding(horizontal = 8.dp),
-//        contentPadding = PaddingValues(bottom = 64.dp), // Accommodate space for FAB
-//        columnCount = columnCount
-//    ) {
-//        inventory.forEach { plant ->
-//            item {
-//                PlantCard(plant)
-//            }
-//        }
-//    }
-
-//@Composable
-//fun OverviewListGrid(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyVerticalGrid(
-//    verticalArrangement = Arrangement.spacedBy(16.dp),
-//    modifier = modifier
-//        .fillMaxWidth()
-//        .padding(horizontal = 8.dp),
-//    contentPadding = PaddingValues(bottom = 56.dp), // Accommodate space for FAB
-//    columns = GridCells.Adaptive(minSize = 320.dp)
-//) {
-//    items(inventory.size) { i ->
-//        PlantCard(inventory[i])
-//    }
-//}
 
 @Composable
 fun OverviewListCompact(inventory: List<Plant>, modifier: Modifier = Modifier) = LazyColumn(
